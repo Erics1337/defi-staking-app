@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 contract Reward {
     string public name = "Reward Token";
     string public symbol = "RWD";
-    uint256 public totalSupply = 1000000000000000000; // 1 million tokens
+    uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
     // In Solidity, cannot work with floats/fractions, this is why we use the decimal variable
     uint8 public decimals = 18;
 
