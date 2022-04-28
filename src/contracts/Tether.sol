@@ -4,6 +4,7 @@ contract Tether {
     string public name = "Mock Tether Token";
     string public symbol = "mUSDT";
     uint256 public totalSupply = 1000000000000000000; // 1 million tokens
+    // In Solidity, cannot work with floats/fractions, this is why we use the decimal variable
     uint8 public decimals = 18;
 
     // Events are camelCased by convention
@@ -16,7 +17,9 @@ contract Tether {
         uint256 value
     );
 
+    // Create key-store values to keep track of the balance of each address
     mapping(address => uint256) public balanceOf;
+    // Check through address of each user and mapping what that is
     mapping(address => mapping(address => uint256)) public allowance;
 
     constructor() {
@@ -33,6 +36,15 @@ contract Tether {
         // Emit the transfer event
         // Outside consumer can see the event through web3js
         emit Transfer(msg.sender, to, value);
+        return true;
+    }
+
+    function approve(address spender, uint256 value)
+        public
+        returns (bool success)
+    {
+        allowance[msg.sender][spender] = value;
+        emit Approval(msg.sender, spender, value);
         return true;
     }
 
