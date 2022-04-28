@@ -22,7 +22,7 @@ contract Tether {
     // Check through address of each user and mapping what that is
     mapping(address => mapping(address => uint256)) public allowance;
 
-    constructor() {
+    constructor() public {
         balanceOf[msg.sender] = totalSupply;
     }
 
