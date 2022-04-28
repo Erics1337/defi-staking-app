@@ -9,7 +9,7 @@ contract DecentralBank {
     Reward public reward;
 
     constructor(Reward reward, Tether tether) public {
-        reward = _reward;
-        tether = _tether;
+        reward = reward;
+        tether = tether;
     }
 }
