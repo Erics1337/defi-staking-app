@@ -4,11 +4,11 @@ require('babel-polyfill')
 module.exports = {
 	networks: {
 		development: {
-			host: 'HTTP://127.0.0.1:7545',
+			host: '127.0.0.1:',
 			port: '7545',
 			network_id: '*',
-			gas: 6000000,
-			gasPrice: 20000000000,
+			// gas: 6000000,
+			// gasPrice: 20000000000,
 		},
 	},
 	contracts_directory: './src/contracts/',
@@ -16,11 +16,9 @@ module.exports = {
 	compilers: {
 		solc: {
 			version: '^0.5.0',
-			settings: {
-				optimizer: {
-					enabled: true,
-					runs: 200,
-				},
+			optimizer: {
+				enabled: true,
+				runs: 200,
 			},
 		},
 	},
