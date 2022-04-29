@@ -1,5 +1,4 @@
-// const { artifacts } = require('truffle')
-// import { artifacts } from 'truffle'
+/* eslint-disable */
 const Tether = artifacts.require('Tether')
 const Reward = artifacts.require('Reward')
 const DecentralBank = artifacts.require('DecentralBank')
