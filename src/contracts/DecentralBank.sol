@@ -11,7 +11,7 @@ contract DecentralBank {
     // Key store
     address[] public stakers;
 
-    mapping(address => uint) public stakingBalance;
+    mapping(address => uint256) public stakingBalance;
     mapping(address => bool) public hasStaked;
     mapping(address => bool) public isStaked;
 
@@ -20,15 +20,18 @@ contract DecentralBank {
         tether = tether;
     }
 
-    // Staking function 
-    function depositTokens(uint amount) public {
+    // Staking function
+    function depositTokens(uint256 amount) public {
+        // Requirements
+        require(amount > 0, "Amount cannot be 0");
+
         // Transfer Tether tokens to this address for staking
         tether.transferFrom(msg.sender, address(this), amount);
 
         // Update staking balance
         stakingBalance[msg.sender] = stakingBalance[msg.sender] + amount;
 
-        if(!hasStaked) {
+        if (!hasStaked) {
             stakers.push[msg.sender];
         }
 
