@@ -38,4 +38,8 @@ balance.toString()
 convertBalance = web3.utils.fromWei(balance)
 web3.utils.toWei('15', 'Ether')
 ```
+## Scripts
+Issue tokens to users
+```
+truffle exec scripts/issue-tokens.js
 ```
