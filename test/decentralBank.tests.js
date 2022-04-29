@@ -39,12 +39,26 @@ contract('DecentralBank', ([owner, recipient]) => {
 		})
 	})
 
-	describe('Reward Token', async () => {
+	describe('Reward Token Deployment', async () => {
 		it('matches name successfully', async () => {
 			// Get name
 			const name = await reward.name()
 			// Assert name
 			assert.equal(name, 'Reward Token')
 		})
+	})
+
+	describe('Decentral Bank Deployment', async () => {
+		it('matches name successfully', async () => {
+			// Get name
+			const name = await decentralBank.name()
+			// Assert name
+			assert.equal(name, 'Decentral Bank')
+		})
+	})
+
+	it('contract has tokens', async () => {
+		let balance = await reward.balanceOf(decentralBank.address)
+		assert.equal(balance, tokens(1000000))
 	})
 })
