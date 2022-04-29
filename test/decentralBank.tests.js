@@ -9,16 +9,27 @@ require('chai')
 	.use(require('chai-as-promised'))
 	.should()
 
-contract('DecentralBank', (accounts) => {
-	let tether, reward
+contract('DecentralBank', ([owner, recipient]) => {
+	let tether, reward, decentralBank
 
+	// Helper function to convert eth to wei
+	function tokens(number) {
+		return web3.utils.toWei(number.toString(), 'ether')
+	}
+
+	// Arrange - Load contracts
 	before(async () => {
-		// Arrange
 		tether = await Tether.new()
 		reward = await Reward.new()
+		decentralBank = await DecentralBank.new(tether.address, reward.address)
+
+		// Transfer all tokens to DecentralBank (1 million)
+		await reward.transfer(decentralBank.address, tokens(1000000))
+
+		// Transfer 100 mock Tether tokens to customer/investor/user from owner account
+		await tether.transfer(recipient, tokens(100), { from: owner })
 	})
 
-	// All of the code goes here for testing
 	describe('Mock Tether Deployment', async () => {
 		it('matches name successfully', async () => {
 			// Get name
