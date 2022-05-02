@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import Navbar from './Navbar'
 import Web3 from 'web3'
 import Tether from '../truffle_abis/Tether.json'
+import Reward from '../truffle_abis/Reward.json'
+import DecentralBank from '../truffle_abis/DecentralBank.json'
 
 function App() {
 	const [account, setAccount] = useState('0x0')
 	const [tether, setTether] = useState({})
 	const [reward, setReward] = useState({})
-	const [decentralBank] = useState({})
+	const [decentralBank, setDecentralBank] = useState({})
 	const [tetherBalance, setTetherBalance] = useState('0')
 	const [rewardBalance, setRewardBalance] = useState('0')
 	const [stakingBalance, setStakingBalance] = useState('0')
@@ -46,7 +48,7 @@ function App() {
 					tetherData.address
 				)
 				setTether(tether)
-				// Must use call() b/c its a callback
+				// Must use call() b/c methods in web3 are callbacks
 				let tetherBalance = await tether.methods
 					.balanceOf(accounts[0])
 					.call()
@@ -55,6 +57,46 @@ function App() {
 			} else {
 				window.alert(
 					'Tether contract not deployed to detected network.'
+				)
+			}
+
+			// Load Reward Contract
+			const rewardData = Reward.networks[networkId]
+			if (rewardData) {
+				// Get contract abi json and contract address
+				const reward = new web3.eth.Contract(
+					Reward.abi,
+					rewardData.address
+				)
+				setReward(reward)
+				let rewardBalance = await reward.methods
+					.balanceOf(accounts[0])
+					.call()
+				setRewardBalance(rewardBalance.toString())
+				console.log('Reward Balance: ', rewardBalance)
+			} else {
+				window.alert(
+					'Reward contract not deployed to detected network.'
+				)
+			}
+
+			// Load DecentralBank Contract
+			const decentralBankData = DecentralBank.networks[networkId]
+			if (decentralBankData) {
+				// Get contract abi json and contract address
+				const decentralBank = new web3.eth.Contract(
+					DecentralBank.abi,
+					decentralBankData.address
+				)
+				setDecentralBank(decentralBank)
+				let stakingBalance = await decentralBank.methods
+					.stakingBalance(accounts[0])
+					.call()
+				setStakingBalance(stakingBalance.toString())
+				console.log('Staking Balance: ', stakingBalance)
+			} else {
+				window.alert(
+					'DecentralBank contract not deployed to detected network.'
 				)
 			}
 		}
