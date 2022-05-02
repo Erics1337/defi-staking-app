@@ -108,6 +108,12 @@ function App() {
 		loadBlockchainData().catch(console.error)
 	}, [])
 
+	if (loading)
+		return (
+			<p id='loader' className='text-center' style={{ margin: '30px' }}>
+				Loading...
+			</p>
+		)
 	return (
 		<div>
 			<Navbar account={account} />
