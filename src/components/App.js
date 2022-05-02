@@ -128,6 +128,16 @@ function App() {
 			})
 	}
 
+	const unstakeTokens = (amount) => {
+		setLoading(true)
+		decentralBank.methods
+			.unstakeTokens(amount)
+			.send({ from: account })
+			.on('transactionHash', (hash) => {
+				setLoading(false)
+			})
+	}
+
 	if (loading)
 		return (
 			<p id='loader' className='text-center' style={{ margin: '30px' }}>
@@ -151,6 +161,7 @@ function App() {
 							rewardBalance={rewardBalance}
 							stakingBalance={stakingBalance}
 							stakeTokens={stakeTokens}
+							unstakeTokens={unstakeTokens}
 						/>
 					</main>
 				</div>
