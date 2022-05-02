@@ -1,7 +1,7 @@
 import React from 'react'
 import tether from '../img/tether.png'
 
-function Main() {
+function Main({ tetherBalance, rewardBalance, stakingBalance }) {
 	return (
 		<div id='content' className='mt-3'>
 			<table className='table text-muted text-center'>
@@ -13,8 +13,10 @@ function Main() {
 				</thead>
 				<tbody>
 					<tr style={{ color: 'black' }}>
-						<td>USDT</td>
-						<td>RWD</td>
+						<td>
+							{window.web3.utils.fromWei(stakingBalance)} USDT
+						</td>
+						<td>{window.web3.utils.fromWei(rewardBalance)} RWD</td>
 					</tr>
 				</tbody>
 			</table>
@@ -30,7 +32,7 @@ function Main() {
 						<span
 							className='float-right'
 							style={{ marginRight: '8px' }}>
-							Balance:
+							Balance: {window.web3.utils.fromWei(tetherBalance)}
 						</span>
 						<div className='input-group mb-4'>
 							<input type='text' placeholder='0' required />
