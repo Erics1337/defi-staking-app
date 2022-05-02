@@ -4,6 +4,7 @@ import Web3 from 'web3'
 import Tether from '../truffle_abis/Tether.json'
 import Reward from '../truffle_abis/Reward.json'
 import DecentralBank from '../truffle_abis/DecentralBank.json'
+import Main from './Main'
 
 function App() {
 	const [account, setAccount] = useState('0x0')
@@ -99,6 +100,8 @@ function App() {
 					'DecentralBank contract not deployed to detected network.'
 				)
 			}
+
+			setLoading(false)
 		}
 
 		loadWeb3().catch(console.error)
@@ -108,6 +111,19 @@ function App() {
 	return (
 		<div>
 			<Navbar account={account} />
+			<div className='container-fluid mt-5'>
+				<div className='row'>
+					<main
+						role='main'
+						className='col-lg-12 ml-auto mr-auto'
+						style={{
+							maxWidth: '600px',
+							minHeight: '100vm',
+						}}>
+						<Main />
+					</main>
+				</div>
+			</div>
 		</div>
 	)
 }
