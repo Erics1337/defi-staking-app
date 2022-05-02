@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from './Navbar'
 import Web3 from 'web3'
+import Tether from '../truffle_abis/Tether.json'
 
 function App() {
 	const [account, setAccount] = useState('0x0')
-	const [tether, setTether] = useState('0x0')
-	const [reward, setReward] = useState('0x0')
-	const [decentralBank] = useState('0x0')
-	const [tetherBalance] = useState('0x0')
-	const [rewardBalance] = useState('0x0')
-	const [stakingBalance] = useState('0x0')
+	const [tether, setTether] = useState({})
+	const [reward, setReward] = useState({})
+	const [decentralBank] = useState({})
+	const [tetherBalance, setTetherBalance] = useState('0')
+	const [rewardBalance, setRewardBalance] = useState('0')
+	const [stakingBalance, setStakingBalance] = useState('0')
 	const [loading, setLoading] = useState(true)
 
 	// To use async functions inside useEffect, we need to defne them inside
@@ -33,6 +34,29 @@ function App() {
 			const web3 = window.web3
 			const accounts = await web3.eth.getAccounts()
 			setAccount(accounts[0])
+			const networkId = await web3.eth.net.getId()
+			console.log('Network ID: ', networkId)
+
+			// Load Tether Contract
+			const tetherData = Tether.networks[networkId]
+			if (tetherData) {
+				// Get contract abi json and contract address
+				const tether = new web3.eth.Contract(
+					Tether.abi,
+					tetherData.address
+				)
+				setTether(tether)
+				// Must use call() b/c its a callback
+				let tetherBalance = await tether.methods
+					.balanceOf(accounts[0])
+					.call()
+				setTetherBalance(tetherBalance.toString())
+				console.log('Tether Balance: ', tetherBalance)
+			} else {
+				window.alert(
+					'Tether contract not deployed to detected network.'
+				)
+			}
 		}
 
 		loadWeb3().catch(console.error)
