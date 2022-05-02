@@ -108,6 +108,26 @@ function App() {
 		loadBlockchainData().catch(console.error)
 	}, [])
 
+	// leverage functions we created in decentralBank contract - deposit tokens and unstaking
+	// run function to approve before we call depositToken
+	// Staking Function >> access decentralBank, deposit tokens, send transaction hash
+	const stakeTokens = (amount) => {
+		setLoading(true)
+		// approve tokens to be staked
+		tether.methods
+			.approve(decentralBank.address, amount)
+			.send({ from: account })
+			.on('transactionHash', (hash) => {
+				// deposit tokens from amount user is staking
+				decentralBank.methods
+					.depositTokens(amount)
+					.send({ from: account })
+					.on('transactionHash', (hash) => {
+						setLoading(false)
+					})
+			})
+	}
+
 	if (loading)
 		return (
 			<p id='loader' className='text-center' style={{ margin: '30px' }}>
@@ -126,7 +146,12 @@ function App() {
 							maxWidth: '600px',
 							minHeight: '100vm',
 						}}>
-						<Main />
+						<Main
+							tetherBalance={tetherBalance}
+							rewardBalance={rewardBalance}
+							stakingBalance={stakingBalance}
+							stakeTokens={stakeTokens}
+						/>
 					</main>
 				</div>
 			</div>
