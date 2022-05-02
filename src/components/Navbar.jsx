@@ -1,7 +1,7 @@
 import React from 'react'
 import bank from '../img/bank.png'
 
-function Navbar() {
+function Navbar({ account }) {
 	return (
 		<nav
 			className='d-flex justify-content-between navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow p-0'
@@ -18,7 +18,10 @@ function Navbar() {
 			</a>
 			<ul className='navbar-nav px-3'>
 				<li className='text-nowrap d-none nav-item d-sm-none d-sm-block'>
-					<small style={{ color: 'white' }}> Account Number</small>
+					<small style={{ color: 'white' }}>
+						{' '}
+						Account Number: {account}
+					</small>
 				</li>
 			</ul>
 		</nav>
