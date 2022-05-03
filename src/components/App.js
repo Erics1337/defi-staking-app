@@ -115,7 +115,7 @@ function App() {
 		setLoading(true)
 		// approve tokens to be staked
 		tether.methods
-			.approve(decentralBank.address, amount)
+			.approve(decentralBank._address, amount)
 			.send({ from: account })
 			.on('transactionHash', (hash) => {
 				// deposit tokens from amount user is staking
@@ -123,9 +123,10 @@ function App() {
 					.depositTokens(amount)
 					.send({ from: account })
 					.on('transactionHash', (hash) => {
-						setLoading(false)
+						console.log('Staking Transaction Hash: ', hash)
 					})
 			})
+		setLoading(false)
 	}
 
 	const unstakeTokens = (amount) => {

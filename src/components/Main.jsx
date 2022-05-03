@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import tether from '../img/tether.png'
 
-function Main({ tetherBalance, rewardBalance, stakingBalance }) {
+function Main({
+	tetherBalance,
+	rewardBalance,
+	stakingBalance,
+	stakeTokens,
+	unstakeTokens,
+}) {
+	const [amount, setAmount] = useState('')
+
+	function handleSubmit(event) {
+		event.preventDefault()
+		stakeTokens(window.web3.utils.toWei(amount, 'Ether'))
+	}
 	return (
 		<div id='content' className='mt-3'>
 			<table className='table text-muted text-center'>
@@ -21,7 +33,7 @@ function Main({ tetherBalance, rewardBalance, stakingBalance }) {
 				</tbody>
 			</table>
 			<div className='card mb-2' style={{ opacity: '.9' }}>
-				<form action='' className='mb-3'>
+				<form className='mb-3' onSubmit={(e) => handleSubmit(e)}>
 					<div style={{ borderSpacing: '0 1em' }}>
 						<label
 							htmlFor=''
@@ -35,7 +47,13 @@ function Main({ tetherBalance, rewardBalance, stakingBalance }) {
 							Balance: {window.web3.utils.fromWei(tetherBalance)}
 						</span>
 						<div className='input-group mb-4'>
-							<input type='text' placeholder='0' required />
+							<input
+								name='input'
+								onChange={(e) => setAmount(e.target.value)}
+								type='text'
+								placeholder='0'
+								required
+							/>
 							<div className='input-group-text'>
 								<img
 									src={tether}
@@ -52,7 +70,9 @@ function Main({ tetherBalance, rewardBalance, stakingBalance }) {
 						Deposit
 					</button>
 				</form>
-				<button className='btn btn-primary btn-lg btn-block'>
+				<button
+					onClick={() => unstakeTokens()}
+					className='btn btn-primary btn-lg btn-block'>
 					Withdraw
 				</button>
 				<div
