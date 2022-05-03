@@ -1,2 +1,2 @@
 node_modules
-truffle_abis/
+src/truffle_abis/*
